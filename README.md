@@ -3,9 +3,15 @@
 ## About
 The Portal Box system is composed of one or more IoT access control boxes and a management website all of which communicate through the database. This project defines the schema for that database.
 
+### Note on Conventions
+In some shell commands you may need to provide values left up to you. These values are denoted using the semi-standard shell variable syntax e.g. ${NAME_OF_DATA} 
+
+## License
+This project is licensed under the Apache 2.0 License - see the LICENSE file for details
+
 ## Dependancies
 A MySQL or compatible (MariaDB) database
-A database user with CALL, CREATE, DROP, INSERT, SELECT priveledges
+A database user with CALL, CREATE, DROP, INSERT, SELECT priveleges
 
 ## Database Priveledge Recommendations
 Some hosting setups will only provide a single database user account with all permissions on a single schema. This is sufficient. You can however possibly increase security by creating a second user used by the Portal Boxes to connect to the Database with only SELECT, INSERT and CALL priveleges. The web interface requires SELECT, INSERT, and UPDATE priveleges.
