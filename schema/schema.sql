@@ -251,7 +251,7 @@ BEGIN
 								INNER JOIN equipment_types AS et ON et.id = e.type_id
 								WHERE e.id = p_equipment_id);
 	SET l_use_start_timestamp = (SELECT start_time FROM in_use
-								WHERE equipment_id = p_equipment_id);
+								WHERE equipment_id = p_equipment_id LIMIT 1);
 	SET l_use_duration = TIMESTAMPDIFF(MINUTE, l_use_start_timestamp, NOW());
 
 	CASE l_charge_policy_id
@@ -269,6 +269,7 @@ BEGIN
 					INNER JOIN equipment_types AS et ON et.id = e.type_id
 					INNER JOIN users_x_cards AS uxc
 					WHERE e.id = p_equipment_id AND uxc.card_id = p_card_id;
+		ELSE BEGIN END;
 	END CASE;
 
 	DELETE FROM in_use WHERE equipment_id = p_equipment_id;
