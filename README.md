@@ -17,7 +17,7 @@ A database user with CALL, CREATE, DROP, INSERT, SELECT priveleges
 Some hosting setups will only provide a single database user account with all permissions on a single schema. This is sufficient. You can however possibly increase security by creating a second user used by the Portal Boxes to connect to the Database with only SELECT, INSERT and CALL priveleges. The web interface requires SELECT, INSERT, and UPDATE priveleges.
 
 ## Installing
-The `schema` directory contains a script which drops the data form a specified database and creates the table stucture (schema) of the current up to date database. The `migration` directory contains scripts that will modify an existing Portal Box database updating it to the next version of the schema.
+The `schema` directory contains a script which drops the data form a specified database and creates the table stucture (schema) of the current up to date database. The `migration` directory contains scripts that will modify an existing Portal Box database updating the schema from one version to the next.
 
 [WARNING] Using the script in `schema` will cause the loss of data if used on an existing Portal Box database by design. It is to be used with new databases and as a last resort recovery option only.
 
@@ -33,6 +33,14 @@ Enter your database password when prompted and your database should be created i
 ```mysql
 INSERT INTO users(name, email, management_portal_access_level_id) VALUES(${YOUR_NAME}, ${YOUR_EMAIL_ADDRESS}, 3);
 ```
+
+To update from one schema to the next eg 2.0.0 the initial release to 2.1.0 the first update do:
+
+```sh
+mysql -h ${YOUR_MYSQL_SERVER_HOSTNAME} -u ${YOUR_MYSQL_USERNAME} -p ${YOUR_MYSQL_DATABSE_NAME} < migration/2.1.0.sql
+```
+
+at the command line and enter your database user's password when prompted.
 
 ## Roadmap
 - Create script to create an administrative user

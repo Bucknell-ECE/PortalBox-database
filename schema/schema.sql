@@ -3,6 +3,8 @@ DROP PROCEDURE IF EXISTS log_access_attempt;
 DROP PROCEDURE IF EXISTS log_access_completion;
 
 -- Clear out the tables we will build in reverse order to unwind FKeys
+DROP TABLE IF EXISTS schema_versioning;
+DROP TABLE IF EXISTS api_keys;
 DROP TABLE IF EXISTS charges;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS log;
@@ -275,3 +277,20 @@ BEGIN
 	DELETE FROM in_use WHERE equipment_id = p_equipment_id;
 END$
 DELIMITER ;
+
+CREATE TABLE api_keys (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	name TEXT NOT NULL,
+	token CHAR(32) NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE schema_versioning (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	version TEXT NOT NULL,
+	comment TEXT,
+	PRIMARY KEY(id)
+);
+
+INSERT INTO schema_versioning(version, comment) VALUES ("2.1.0", "Database created");
