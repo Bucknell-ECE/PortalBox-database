@@ -65,9 +65,10 @@ INSERT INTO management_portal_access_levels(name) VALUES
 CREATE TABLE users (
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	name TEXT NOT NULL,
-	email TEXT NOT NULL,
-	management_portal_access_level_id INT UNSIGNED NOT NULL DEFAULT 1, -- defualt: none
+	email VARCHAR(512) NOT NULL,
+	management_portal_access_level_id INT UNSIGNED NOT NULL DEFAULT 1, -- e.g. none
 	PRIMARY KEY (id),
+	UNIQUE KEY users_email (email),
 	FOREIGN KEY users_management_portal_access_level_id (management_portal_access_level_id) REFERENCES management_portal_access_levels (id)
 );
 
