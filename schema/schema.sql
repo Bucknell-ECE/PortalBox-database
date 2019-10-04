@@ -177,14 +177,16 @@ CREATE TABLE event_types (
 INSERT INTO event_types(name) VALUES
 	("Unsuccessful Authentication"),
 	("Successful Authentication"),
-	("Deauthentication");
+	("Deauthentication"),
+	("Startup Complete"),
+	("Planned Shutdown");
 
 
 -- List of events aka the access log
 CREATE TABLE log (
 	id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
 	event_type_id INT UNSIGNED NOT NULL,
-	card_id BIGINT(20) UNSIGNED NOT NULL,
+	card_id BIGINT(20) UNSIGNED,
 	equipment_id INT UNSIGNED NOT NULL,
 	time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
@@ -223,7 +225,8 @@ CREATE TABLE charges (
 
 -- use a stored procedure to log a user begining a session with equipment
 DELIMITER $
-CREATE PROCEDURE log_access_attempt(p_success BOOL, p_card_id INT UNSIGNED, p_equipment_id INT UNSIGNED) MODIFIES SQL DATA
+CREATE PROCEDURE log_access_attempt(p_success BOOL, p_card_id INT UNSIGNED, p_equipment_id INT UNSIGNED)
+	MODIFIES SQL DATA
 BEGIN
 	IF p_success THEN
 		INSERT INTO log(event_type_id, card_id, equipment_id, time) VALUES (2, p_card_id, p_equipment_id, CURRENT_TIMESTAMP);
@@ -247,7 +250,6 @@ BEGIN
 	-- log in case all else fails
 	INSERT INTO log(event_type_id, card_id, equipment_id, time)
 		VALUES (3, p_card_id, p_equipment_id, CURRENT_TIMESTAMP);
-	
 
 	-- figure out charges if need be
 	SET l_charge_policy_id = (SELECT et.charge_policy_id FROM equipment AS e
@@ -279,6 +281,8 @@ BEGIN
 END$
 DELIMITER ;
 
+
+-- List of API Keys
 CREATE TABLE api_keys (
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	name TEXT NOT NULL,
@@ -286,6 +290,8 @@ CREATE TABLE api_keys (
 	PRIMARY KEY(id)
 );
 
+
+-- List to track what schema is installed; helpful when doing support
 CREATE TABLE schema_versioning (
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -294,4 +300,4 @@ CREATE TABLE schema_versioning (
 	PRIMARY KEY(id)
 );
 
-INSERT INTO schema_versioning(version, comment) VALUES ("2.1.0", "Database created");
+INSERT INTO schema_versioning(version, comment) VALUES ("2.2.0", "Database created");
