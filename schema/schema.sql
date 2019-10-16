@@ -125,6 +125,7 @@ CREATE TABLE equipment (
 	mac_address CHAR(12) NOT NULL,
 	location_id INT UNSIGNED NOT NULL,
 	timeout INT DEFAULT 0 NOT NULL,
+	in_service INT(1) UNSIGNED NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE mac_address_index (mac_address),
 	FOREIGN KEY equipment_locations_id (location_id) REFERENCES locations (id),
