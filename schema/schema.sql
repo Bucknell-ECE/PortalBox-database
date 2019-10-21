@@ -67,6 +67,7 @@ CREATE TABLE users (
 	name TEXT NOT NULL,
 	email VARCHAR(512) NOT NULL,
 	management_portal_access_level_id INT UNSIGNED NOT NULL DEFAULT 1, -- e.g. none
+	is_active INT(1) UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
 	UNIQUE KEY users_email (email),
 	FOREIGN KEY users_management_portal_access_level_id (management_portal_access_level_id) REFERENCES management_portal_access_levels (id)
