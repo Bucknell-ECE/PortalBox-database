@@ -66,6 +66,7 @@ CREATE TABLE users (
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	name TEXT NOT NULL,
 	email VARCHAR(512) NOT NULL,
+	comment TEXT,
 	management_portal_access_level_id INT UNSIGNED NOT NULL DEFAULT 1, -- e.g. none
 	is_active INT(1) UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
