@@ -1,6 +1,8 @@
 -- Clear out the stored prcedures
 DROP PROCEDURE IF EXISTS log_access_attempt;
 DROP PROCEDURE IF EXISTS log_access_completion;
+DROP FUNCTION IF EXISTS get_user_balance_for_card;
+
 
 -- Clear out the tables we will build in reverse order to unwind FKeys
 DROP TABLE IF EXISTS schema_versioning;
@@ -224,6 +226,26 @@ CREATE TABLE charges (
 	FOREIGN KEY charges_equipment_id (equipment_id) REFERENCES equipment (id),
 	FOREIGN KEY charges_charge_policy_id (charge_policy_id) REFERENCES charge_policies (id)
 );
+
+
+-- use a stored function to get the balance for the user presenting a card
+DELIMITER $
+CREATE FUNCTION get_user_balance_for_card(p_card_id INT UNSIGNED)
+	RETURNS DECIMAL(10,2)
+	READS SQL DATA
+BEGIN
+	DECLARE l_total_payments DECIMAL(10,2);
+	DECLARE l_total_charges DECIMAL(10,2);
+
+	SET l_total_payments = (SELECT sum(p.amount) FROM payments AS p
+							INNER JOIN users_x_cards AS u ON u.user_id = p.user_id
+							WHERE u.card_id = p_card_id);
+	SET l_total_charges = (SELECT sum(c.amount) FROM charges AS c
+							INNER JOIN users_x_cards AS u ON u.user_id = c.user_id
+							WHERE u.card_id = p_card_id);
+	RETURN IFNULL(l_total_payments, 0.0) - IFNULL(l_total_charges, 0.0);
+END$
+DELIMITER ;
 
 
 -- use a stored procedure to log a user begining a session with equipment
