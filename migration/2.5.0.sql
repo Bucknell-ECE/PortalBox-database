@@ -1,3 +1,6 @@
+-- Add function to database to calculate the account balance for user given a card_id
+--	assigned tot he user.
+
 DROP FUNCTION IF EXISTS get_user_balance_for_card;
 
 -- use a stored function to get the balance for the user presenting a card

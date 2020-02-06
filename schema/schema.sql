@@ -130,6 +130,7 @@ CREATE TABLE equipment (
 	location_id INT UNSIGNED NOT NULL,
 	timeout INT DEFAULT 0 NOT NULL,
 	in_service INT(1) UNSIGNED NOT NULL,
+	service_minutes INT UNSIGNED DEFAULT 0 NOT NULL,
 	PRIMARY KEY(id),
 	UNIQUE mac_address_index (mac_address),
 	FOREIGN KEY equipment_locations_id (location_id) REFERENCES locations (id),
@@ -283,6 +284,9 @@ BEGIN
 	SET l_use_start_timestamp = (SELECT start_time FROM in_use
 								WHERE equipment_id = p_equipment_id LIMIT 1);
 	SET l_use_duration = TIMESTAMPDIFF(MINUTE, l_use_start_timestamp, NOW());
+
+	-- update equipment with new usage minutes
+	UPDATE equipment SET service_minutes = service_minutes + l_use_duration WHERE id = p_equipment_id;
 
 	CASE l_charge_policy_id
 		WHEN 3 THEN -- per use
