@@ -20,7 +20,6 @@ DROP TABLE IF EXISTS charge_policies;
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS users_x_cards;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS management_portal_access_levels;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS card_types;
 DROP TABLE IF EXISTS roles_x_permissions;
@@ -31,16 +30,16 @@ DROP TABLE IF EXISTS permissions;
 -- List of Card Types... We use four(4): admin, proxy, training, and user
 --   Could be an enum but we don't want to worry about enum issues in future
 CREATE TABLE card_types (
-	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	id INT UNSIGNED NOT NULL,
 	name VARCHAR(8) NOT NULL,
 	PRIMARY KEY (id)
 );
 
-INSERT INTO card_types(name) VALUES
-	("shutdown"),
-	("proxy"),
-	("training"),
-	("user");
+INSERT INTO card_types(id, name) VALUES
+	(1, "shutdown"),
+	(2, "proxy"),
+	(3, "training"),
+	(4, "user");
 
 
 -- List of cards 
@@ -49,15 +48,6 @@ CREATE TABLE cards (
 	type_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY cards_type_id (type_id) REFERENCES card_types (id)
-);
-
-
--- List of Management access levels... We use three(3): none, trainer, admin
---   Could be an enum but we don't want to worry about enum issues in future
-CREATE TABLE management_portal_access_levels (
-	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	name VARCHAR(8) NOT NULL,
-	PRIMARY KEY (id)
 );
 
 
@@ -157,8 +147,8 @@ CREATE TABLE roles_x_permissions (
 	role_id INT UNSIGNED NOT NULL,
 	permission_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY roles_x_permissions_role_id (role_id) REFERENCES roles (id),
-	FOREIGN KEY roles_x_permissions_permission_id (permission_id) REFERENCES permissions (id)
+	FOREIGN KEY roles_x_permissions_role_id (role_id) REFERENCES roles (id) ON DELETE CASCADE,
+	FOREIGN KEY roles_x_permissions_permission_id (permission_id) REFERENCES permissions (id) ON DELETE CASCADE
 );
 
 -- Assign default permissions to roles
@@ -279,7 +269,7 @@ CREATE TABLE locations (
 
 -- List of Charge Frequencies
 CREATE TABLE charge_policies (
-	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	id INT UNSIGNED NOT NULL,
 	name TEXT,
 	PRIMARY KEY(id)
 );

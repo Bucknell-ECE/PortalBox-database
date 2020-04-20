@@ -98,8 +98,8 @@ CREATE TABLE roles_x_permissions (
 	role_id INT UNSIGNED NOT NULL,
 	permission_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY roles_x_permissions_role_id (role_id) REFERENCES roles (id),
-	FOREIGN KEY roles_x_permissions_permission_id (permission_id) REFERENCES permissions (id)
+	FOREIGN KEY roles_x_permissions_role_id (role_id) REFERENCES roles (id) ON DELETE CASCADE,
+	FOREIGN KEY roles_x_permissions_permission_id (permission_id) REFERENCES permissions (id) ON DELETE CASCADE
 );
 
 -- Assign default permissions to roles
