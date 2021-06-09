@@ -138,10 +138,6 @@ INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
 	(@admin_role_id, 303),
 	(@admin_role_id, 305),
 	(@admin_role_id, 306),
-	(@admin_role_id, 401),
-	(@admin_role_id, 402),
-	(@admin_role_id, 403),
-	(@admin_role_id, 404),
 	(@admin_role_id, 405),
 	(@admin_role_id, 501),
 	(@admin_role_id, 502),
@@ -222,5 +218,14 @@ ALTER TABLE users DROP COLUMN management_portal_access_level_id;
 -- we no longer use the management portal access level design
 -- therefore we don't require the backing table
 DROP TABLE management_portal_access_levels;
+
+-- we need to add the delete cascade for authorizations in order for testing to work
+ALTER TABLE authorizations
+	DROP FOREIGN KEY authorizations_user_id,
+	DROP FOREIGN KEY authorizations_equipment_type_id;
+ALTER TABLE authorizations
+	ADD CONSTRAINT authorizations_equipment_type_id FOREIGN KEY (equipment_type_id) REFERENCES equipment_types (id) ON DELETE CASCADE,
+	ADD CONSTRAINT authorizations_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+
 
 INSERT INTO schema_versioning(version, comment) VALUES ("2.7.0", "Migration Complete");

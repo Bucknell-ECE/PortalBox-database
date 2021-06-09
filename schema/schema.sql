@@ -187,10 +187,6 @@ INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
 	(@admin_role_id, 303),
 	(@admin_role_id, 305),
 	(@admin_role_id, 306),
-	(@admin_role_id, 401),
-	(@admin_role_id, 402),
-	(@admin_role_id, 403),
-	(@admin_role_id, 404),
 	(@admin_role_id, 405),
 	(@admin_role_id, 501),
 	(@admin_role_id, 502),
@@ -337,26 +333,25 @@ CREATE TABLE authorizations (
 	user_id INT UNSIGNED NOT NULL,
 	equipment_type_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY(id),
-	FOREIGN KEY authorizations_equipment_type_id (equipment_type_id) REFERENCES equipment_types (id),
-	FOREIGN KEY authorizations_user_id (user_id) REFERENCES users (id)
+	FOREIGN KEY authorizations_equipment_type_id (equipment_type_id) REFERENCES equipment_types (id) ON DELETE CASCADE,
+	FOREIGN KEY authorizations_user_id (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 
--- List of Types of things we can log... We use three(3): Unsuccessful
---   Authentication, Successful Authentication, and Deauthenticate.
+-- List of Types of things we can log...
 --   Could be an enum but we don't want to worry about enum issues in future
 CREATE TABLE event_types (
-	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	id INT UNSIGNED NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	PRIMARY KEY(id)
 );
 
-INSERT INTO event_types(name) VALUES
-	("Unsuccessful Authentication"),
-	("Successful Authentication"),
-	("Deauthentication"),
-	("Startup Complete"),
-	("Planned Shutdown");
+INSERT INTO event_types(id, name) VALUES
+	(1, "Unsuccessful Authentication"),
+	(2, "Successful Authentication"),
+	(3, "Deauthentication"),
+	(4, "Startup Complete"),
+	(5, "Planned Shutdown");
 
 
 -- List of events aka the access log
