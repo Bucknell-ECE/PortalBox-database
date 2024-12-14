@@ -4,7 +4,7 @@
 The Portal Box system is composed of one or more IoT access control boxes and a management website all of which communicate through the database. This project defines the schema for that database.
 
 ### Note on Conventions
-In some shell commands you may need to provide values left up to you. These values are denoted using the semi-standard shell variable syntax e.g. ${NAME_OF_DATA} 
+In some shell commands you may need to provide values left up to you. These values are denoted using the semi-standard shell variable syntax e.g. ${NAME_OF_DATA}
 
 ## License
 This project is licensed under the Apache 2.0 License - see the LICENSE file for details
@@ -31,7 +31,7 @@ mysql -h ${YOUR_MYSQL_SERVER_HOSTNAME} -u ${YOUR_MYSQL_USERNAME} -p ${YOUR_MYSQL
 Enter your database password when prompted and your database should be created in a few moments. You will need to add at least an administrative user to get started with the Management Portal.
 
 ```mysql
-INSERT INTO users(name, email, management_portal_access_level_id) VALUES(${YOUR_NAME}, ${YOUR_EMAIL_ADDRESS}, 3);
+INSERT INTO users(name, email, role_id, is_active) VALUES(${YOUR_NAME}, ${YOUR_EMAIL_ADDRESS}, 3, true);
 ```
 
 To update from one schema to the next eg 2.0.0 the initial release to 2.1.0 the first update do:
