@@ -42,7 +42,7 @@ INSERT INTO card_types(id, name) VALUES
 	(4, "user");
 
 
--- List of cards 
+-- List of cards
 CREATE TABLE cards (
 	id BIGINT(20) UNSIGNED NOT NULL,
 	type_id INT UNSIGNED NOT NULL,
@@ -281,6 +281,7 @@ CREATE TABLE equipment_types (
 	requires_training BOOLEAN NOT NULL DEFAULT true,
 	charge_rate DECIMAL(5,2) DEFAULT NULL,
 	charge_policy_id INT UNSIGNED DEFAULT 1,
+	allow_proxy BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(id),
 	FOREIGN KEY equipment_type_charge_policy_id (charge_policy_id) REFERENCES charge_policies (id)
 );
@@ -495,4 +496,4 @@ CREATE TABLE schema_versioning (
 	PRIMARY KEY(id)
 );
 
-INSERT INTO schema_versioning(version, comment) VALUES ("2.7.0", "Database created");
+INSERT INTO schema_versioning(version, comment) VALUES ("2.8.0", "Database created");
