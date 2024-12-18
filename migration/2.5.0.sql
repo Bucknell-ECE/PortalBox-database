@@ -1,5 +1,5 @@
 -- Add function to database to calculate the account balance for user given a card_id
---	assigned tot he user.
+--	assigned to the user.
 
 DROP FUNCTION IF EXISTS get_user_balance_for_card;
 

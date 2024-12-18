@@ -42,7 +42,7 @@ INSERT INTO card_types(id, name) VALUES
 	(4, "user");
 
 
--- List of cards 
+-- List of cards
 CREATE TABLE cards (
 	id BIGINT(20) UNSIGNED NOT NULL,
 	type_id INT UNSIGNED NOT NULL,
@@ -415,7 +415,7 @@ END$
 DELIMITER ;
 
 
--- use a stored procedure to log a user begining a session with equipment
+-- use a stored procedure to log a user beginning a session with equipment
 DELIMITER $
 CREATE PROCEDURE log_access_attempt(p_success BOOL, p_card_id INT UNSIGNED, p_equipment_id INT UNSIGNED)
 	MODIFIES SQL DATA
