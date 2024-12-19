@@ -417,7 +417,7 @@ END$
 DELIMITER ;
 
 
--- use a stored procedure to log a user begining a session with equipment
+-- use a stored procedure to log a user beginning a session with equipment
 DELIMITER $
 CREATE PROCEDURE log_access_attempt(p_success BOOL, p_card_id INT UNSIGNED, p_equipment_id INT UNSIGNED)
 	MODIFIES SQL DATA
