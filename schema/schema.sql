@@ -299,6 +299,7 @@ CREATE TABLE equipment (
 	timeout INT DEFAULT 0 NOT NULL,
 	in_service INT(1) UNSIGNED NOT NULL,
 	service_minutes INT UNSIGNED DEFAULT 0 NOT NULL,
+	ip_address VARCHAR(15) NULL DEFAULT NULL,
 	PRIMARY KEY(id),
 	UNIQUE mac_address_index (mac_address),
 	FOREIGN KEY equipment_locations_id (location_id) REFERENCES locations (id),
@@ -496,4 +497,4 @@ CREATE TABLE schema_versioning (
 	PRIMARY KEY(id)
 );
 
-INSERT INTO schema_versioning(version, comment) VALUES ("2.8.0", "Database created");
+INSERT INTO schema_versioning(version, comment) VALUES ("2.9.0", "Database created");
