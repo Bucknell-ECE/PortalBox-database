@@ -238,6 +238,7 @@ CREATE TABLE users (
 	comment TEXT,
 	role_id INT UNSIGNED NOT NULL,
 	is_active INT(1) UNSIGNED NOT NULL,
+	pin VARCHAR(255) NULL DEFAULT NULL,
 	PRIMARY KEY (id),
 	UNIQUE KEY users_email (email),
 	FOREIGN KEY users_role_id (role_id) REFERENCES roles (id)
