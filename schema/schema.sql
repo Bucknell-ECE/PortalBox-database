@@ -498,4 +498,4 @@ CREATE TABLE schema_versioning (
 	PRIMARY KEY(id)
 );
 
-INSERT INTO schema_versioning(version, comment) VALUES ("2.9.0", "Database created");
+INSERT INTO schema_versioning(version, comment) VALUES ("2.10.0", "Database created");
