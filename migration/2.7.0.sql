@@ -190,7 +190,7 @@ INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
 	(@trainer_role_id, 106),	-- list own authorizations
 	(@trainer_role_id, 306),	-- list own cards
 	(@trainer_role_id, 506),	-- read own charges
-	(@trainer_role_id, 602),	-- read eqipment type
+	(@trainer_role_id, 602),	-- read equipment type
 	(@trainer_role_id, 605),	-- list equipment types
 	(@trainer_role_id, 702),	-- read equipment
 	(@trainer_role_id, 705),	-- list equipment
