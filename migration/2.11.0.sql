@@ -20,6 +20,7 @@ CREATE TABLE badge_rule_levels (
 	badge_rule_id INT UNSIGNED NOT NULL,
 	uses INT UNSIGNED NOT NULL,
 	name TEXT NOT NULL,
+	image TEXT NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY badge_rule_levels_x_badge_rules_id (badge_rule_id) REFERENCES badge_rules (id) ON DELETE CASCADE
 );
