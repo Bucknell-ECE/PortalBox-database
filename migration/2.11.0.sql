@@ -39,7 +39,8 @@ INSERT INTO permissions(id, name) VALUES
 	(52, 'READ_BADGE'),
 	(53, 'MODIFY_BADGE'),
 	(54, 'DELETE_BADGE'),
-	(55, 'LIST_BADGES');
+	(55, 'LIST_BADGES'),
+	(57, 'REPORT_BADGES');
 
 SET @admin_role_id = (SELECT id FROM roles WHERE name = 'admin');
 INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
@@ -47,6 +48,7 @@ INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
 	(@admin_role_id, 52),
 	(@admin_role_id, 53),
 	(@admin_role_id, 54),
-	(@admin_role_id, 55);
+	(@admin_role_id, 55),
+	(@admin_role_id, 57);
 
 INSERT INTO schema_versioning(version, comment) VALUES ("2.11.0", "Migration Complete");
