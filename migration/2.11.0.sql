@@ -2,13 +2,6 @@
 -- Add table to link badge rules to equipment_types
 -- Add permissions for managing badge rules and grant them to admins
 
--- Uncomment the below if you need to reset this migration. NOTE data may be lost
--- DELETE FROM roles_x_permissions WHERE permission_id IN (51, 52, 53, 54, 55);
--- DELETE FROM permissions WHERE id IN (51, 52, 53, 54, 55);
--- DROP TABLE IF EXISTS badge_rules_x_equipment_types;
--- DROP TABLE IF EXISTS badge_rule_levels;
--- DROP TABLE IF EXISTS badge_rules;
-
 CREATE TABLE badge_rules (
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	name TEXT NOT NULL,
@@ -35,11 +28,11 @@ CREATE TABLE badge_rules_x_equipment_types (
 );
 
 INSERT INTO permissions(id, name) VALUES
-	(51, 'CREATE_BADGE'),
-	(52, 'READ_BADGE'),
-	(53, 'MODIFY_BADGE'),
-	(54, 'DELETE_BADGE'),
-	(55, 'LIST_BADGES'),
+	(51, 'CREATE_BADGE_RULE'),
+	(52, 'READ_BADGE_RULE'),
+	(53, 'MODIFY_BADGE_RULE'),
+	(54, 'DELETE_BADGE_RULE'),
+	(55, 'LIST_BADGE_RULES'),
 	(57, 'REPORT_BADGES');
 
 SET @admin_role_id = (SELECT id FROM roles WHERE name = 'admin');
