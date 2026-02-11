@@ -5,6 +5,7 @@ DROP FUNCTION IF EXISTS get_user_balance_for_card;
 
 -- Clear out the tables we will build in reverse order to unwind FKeys
 DROP TABLE IF EXISTS badge_rules_x_equipment_types;
+DROP TABLE IF EXISTS badge_rule_levels;
 DROP TABLE IF EXISTS badge_rules;
 DROP TABLE IF EXISTS schema_versioning;
 DROP TABLE IF EXISTS api_keys;

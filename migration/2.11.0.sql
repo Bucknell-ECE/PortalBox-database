@@ -1,4 +1,5 @@
 -- Add table to store badge rules
+-- Add table to store badge rule levels
 -- Add table to link badge rules to equipment_types
 -- Add permissions for managing badge rules and grant them to admins
 
