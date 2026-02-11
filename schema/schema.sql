@@ -1,10 +1,12 @@
--- Clear out the stored prcedures
+-- Clear out the stored procedures
 DROP PROCEDURE IF EXISTS log_access_attempt;
 DROP PROCEDURE IF EXISTS log_access_completion;
 DROP FUNCTION IF EXISTS get_user_balance_for_card;
 
-
 -- Clear out the tables we will build in reverse order to unwind FKeys
+DROP TABLE IF EXISTS badge_rules_x_equipment_types;
+DROP TABLE IF EXISTS badge_rule_levels;
+DROP TABLE IF EXISTS badge_rules;
 DROP TABLE IF EXISTS schema_versioning;
 DROP TABLE IF EXISTS api_keys;
 DROP TABLE IF EXISTS charges;
@@ -84,6 +86,12 @@ INSERT INTO permissions(id, name) VALUES
 	(3, 'MODIFY_API_KEY'),
 	(4, 'DELETE_API_KEY'),
 	(5, 'LIST_API_KEYS'),
+	(51, 'CREATE_BADGE_RULE'),
+	(52, 'READ_BADGE_RULE'),
+	(53, 'MODIFY_BADGE_RULE'),
+	(54, 'DELETE_BADGE_RULE'),
+	(55, 'LIST_BADGE_RULES'),
+	(57, 'REPORT_BADGES'),
 	(101, 'CREATE_EQUIPMENT_AUTHORIZATION'),
 	(104, 'DELETE_EQUIPMENT_AUTHORIZATION'),
 	(105, 'LIST_EQUIPMENT_AUTHORIZATIONS'),
@@ -177,6 +185,12 @@ INSERT INTO roles_x_permissions(role_id, permission_id) VALUES
 	(@admin_role_id, 3),
 	(@admin_role_id, 4),
 	(@admin_role_id, 5),
+	(@admin_role_id, 51),
+	(@admin_role_id, 52),
+	(@admin_role_id, 53),
+	(@admin_role_id, 54),
+	(@admin_role_id, 55),
+	(@admin_role_id, 57),
 	(@admin_role_id, 101),
 	(@admin_role_id, 104),
 	(@admin_role_id, 105),
@@ -498,4 +512,29 @@ CREATE TABLE schema_versioning (
 	PRIMARY KEY(id)
 );
 
-INSERT INTO schema_versioning(version, comment) VALUES ("2.10.0", "Database created");
+CREATE TABLE badge_rules (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	name TEXT NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE badge_rule_levels (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	badge_rule_id INT UNSIGNED NOT NULL,
+	uses INT UNSIGNED NOT NULL,
+	name TEXT NOT NULL,
+	image TEXT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY badge_rule_levels_x_badge_rules_id (badge_rule_id) REFERENCES badge_rules (id) ON DELETE CASCADE
+);
+
+CREATE TABLE badge_rules_x_equipment_types (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	badge_rule_id INT UNSIGNED NOT NULL,
+	equipment_type_id INT UNSIGNED NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY badge_rules_x_equipment_types_equipment_type_id (equipment_type_id) REFERENCES equipment_types (id),
+	FOREIGN KEY badge_rules_x_equipment_types_badge_rule_id (badge_rule_id) REFERENCES badge_rules (id) ON DELETE CASCADE
+);
+
+INSERT INTO schema_versioning(version, comment) VALUES ("2.11.0", "Database created");
