@@ -368,7 +368,8 @@ INSERT INTO event_types(id, name) VALUES
 	(2, "Successful Authentication"),
 	(3, "Deauthentication"),
 	(4, "Startup Complete"),
-	(5, "Planned Shutdown");
+	(5, "Planned Shutdown"),
+	(6, "Training");
 
 
 -- List of events aka the access log
@@ -376,10 +377,12 @@ CREATE TABLE log (
 	id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
 	event_type_id INT UNSIGNED NOT NULL,
 	card_id BIGINT(20) UNSIGNED,
+	trainee_card_id BIGINT(20) UNSIGNED DEFAULT NULL,
 	equipment_id INT UNSIGNED NOT NULL,
 	time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	-- no foreign key for card_id because it may be an invalid card (failed auth)
+	FOREIGN KEY log_trainee_card_id (trainee_card_id) REFERENCES cards (id),
 	FOREIGN KEY log_equipment_id (equipment_id) REFERENCES equipment (id)
 );
 
